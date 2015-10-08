@@ -40,6 +40,9 @@
     "phantomjs-polyfill": "0.0.1",
     "postcss-loader": "^0.6.0",
     "raw-loader": "^0.5.1",
+    "react": "^0.14.0",
+    "react-redux": "^3.1.0",
+    "redux-devtools": "^2.1.5",
     "style-loader": "^0.12.4",
     "wallaby-webpack": "0.0.8",
     "webpack": "^1.12.2",
@@ -51,6 +54,8 @@
     "angular": "^1.4.7",
     "angular-messages": "^1.4.7",
     "angular-mocks": "^1.4.7",
+    "ng-redux": "^3.0.2",
+    "redux": "^3.0.2",
     "zurb-foundation-5": "^5.4.7"
   }
 }

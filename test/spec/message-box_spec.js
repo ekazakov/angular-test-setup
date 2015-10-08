@@ -65,7 +65,6 @@ describe('MessageBox', function () {
 
     it('addMessage doesn\'t called if textarea is empty', function () {
         scope.$digest();
-        console.log(directive.scope().$$childTail.msgForm.msg.$error);
         controller.add();
         expect(idGenerator.newId).not.toHaveBeenCalled();
     });
