@@ -34,6 +34,7 @@ describe('Message List', function () {
     it('remove item', function () {
         expect(controller.count).toEqual(2);
         controller.remove(scope.messages[0]);
+        controller.remove({});
         scope.$digest();
         expect(controller.count).toEqual(1);
 

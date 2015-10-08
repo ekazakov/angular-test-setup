@@ -20,7 +20,7 @@ export default function () {
             };
 
             this.add = function () {
-                if ($scope.msgForm.msg.$error.minlength) {
+                if (this.newMessage.length === 0) {
                     return;
                 }
 

@@ -62,5 +62,12 @@ describe('MessageBox', function () {
         scope.$digest();
         expect(directive.find('button')[0].disabled).toBe(true);
     });
+
+    it('addMessage doesn\'t called if textarea is empty', function () {
+        scope.$digest();
+        console.log(directive.scope().$$childTail.msgForm.msg.$error);
+        controller.add();
+        expect(idGenerator.newId).not.toHaveBeenCalled();
+    });
 });
 

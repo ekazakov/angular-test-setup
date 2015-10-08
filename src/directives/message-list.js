@@ -12,15 +12,19 @@ export default function () {
 
             this.remove = function (message) {
                 var index = this.messages.indexOf(message);
-                if (index != -1) {
-                    this.messages.splice(index, 1);
+                if (index === -1) {
+                    return;
                 }
+
+                this.messages.splice(index, 1);
             };
 
             $scope.$watchCollection('ctrl.messages', function (newMessages, old, scope) {
-                if (newMessages) {
-                    scope.ctrl.count = newMessages.length;
+                if (newMessages == null) {
+                    return;
                 }
+
+                scope.ctrl.count = newMessages.length;
             });
         },
         template: require('raw!./message-list.html')

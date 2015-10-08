@@ -21,11 +21,25 @@ module.exports = function (config) {
             'test/index.js': ['webpack', 'sourcemap']
         },
 
-        reporters: ['spec', 'html'],
+        reporters: ['spec', 'html', 'coverage'],
 
+        coverageReporter: {
+            dir: 'coverage/',
+            type: 'html'
+        },
 
         webpack: {
             module: {
+                preLoaders: [
+                    {
+                        test: /\.js$/,
+                        //exclude: [/node_modules/, /.*_spec\.js$/],
+                        include: [
+                            path.resolve(__dirname, 'src')
+                        ],
+                        loader: 'isparta-instrumenter'
+                    }
+                ],
                 loaders: [
                     {
                         test: /\.js$/,

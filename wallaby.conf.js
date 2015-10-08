@@ -1,46 +1,36 @@
 var path = require('path');
+var babel = require('babel');
 var wallabyWebpack = require('wallaby-webpack');
-var wallabyPostprocessor = wallabyWebpack({
-        module: {
-            node: {__dirname: true},
+var webpackTestConfig = {
+    module: {
+        cache: {},
 
-            loaders: [
-                {
-                    test: /\.js$/,
-                    exclude: /node_modules/,
-                    loader: 'babel?optional[]=runtime'
-                },
-                {
-                    // Reference: https://github.com/webpack/file-loader
-                    test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
-                    loader: 'file'
-                },
-                {
-                    test: /\.css$/,
-                    loader: 'null'
-                }
-            ]
-        },
+        node: {__dirname: true},
 
-        devtool: "cheap-module-source-map",
-
-        resolve: {
-            root: __dirname + '/src',
-            modulesDirectories: [require('path').join(__dirname, '../', 'node_modules')],
-            //alias: {
-            //    angular: path.join(__dirname, '../node_modules/angular/index.js')
-            //}
-        },
-
-        entryPatterns: [
-            'test/index.js',
-            'test/**/*_spec.js'
+        loaders: [
+            {
+                // Reference: https://github.com/webpack/file-loader
+                test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+                loader: 'file'
+            },
+            {
+                test: /\.css$/,
+                loader: 'null'
+            }
         ]
-    }
-);
+    },
 
+    devtool: "cheap-module-source-map",
+
+    entryPatterns: [
+        'test/index.js',
+        'test/**/*_spec.js'
+    ]
+};
 
 module.exports = function (wallaby) {
+    webpackTestConfig.context = path.join(wallaby.projectCacheDir, 'src');
+
     return {
         files: [
             {pattern: 'node_modules/phantomjs-polyfill/bind-polyfill.js', instrument: false},
@@ -48,7 +38,7 @@ module.exports = function (wallaby) {
             {pattern: 'src/**/*.js', load: false},
             {pattern: 'src/**/*.html', load: false},
             {pattern: 'css/**/*.css', load: false},
-            {pattern: 'test/index.js', instrument: false, load: false},
+            {pattern: 'test/index.js', load: false},
             {pattern: 'test/utils.js', load: false}
         ],
         tests: [
@@ -57,7 +47,16 @@ module.exports = function (wallaby) {
 
         testFramework: 'jasmine',
 
-        postprocessor: wallabyPostprocessor,
+
+        compilers: {
+            '**/*.js': wallaby.compilers.babel({babel: babel, stage: 0})
+        },
+
+        postprocessor: wallabyWebpack(webpackTestConfig),
+
+        env: {
+            type: 'browser'
+        },
 
         bootstrap: function () {
             // required to trigger test loading
