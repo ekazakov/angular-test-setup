@@ -1,0 +1,8 @@
+<div>
+    Total Messages: <span class="messageList__count">{{ ctrl.count }}</span>
+</div>
+<message-item
+    ng-repeat="message in ctrl.messages track by message.id"
+    message="message"
+    remove="ctrl.remove($message)"
+></message-item>
